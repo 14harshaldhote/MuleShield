@@ -1,0 +1,83 @@
+{
+  "note": "Payment model, simulated data; thresholds are the India pack's step-up and hold cut-offs.",
+  "leaveOneScamTypeOut": {
+    "DIGITAL_ARREST": {
+      "recallAtStepUp": 0.9861,
+      "legitAlertsPer1000AtStepUp": 0.0,
+      "recallAtHold": 0.9653,
+      "legitAlertsPer1000AtHold": 0.0,
+      "validationRows": 144
+    },
+    "INVESTMENT": {
+      "recallAtStepUp": 0.8412,
+      "legitAlertsPer1000AtStepUp": 0.0,
+      "recallAtHold": 0.7673,
+      "legitAlertsPer1000AtHold": 0.0,
+      "validationRows": 447
+    },
+    "REMOTE_ACCESS": {
+      "recallAtStepUp": 0.9487,
+      "legitAlertsPer1000AtStepUp": 0.0,
+      "recallAtHold": 0.9487,
+      "legitAlertsPer1000AtHold": 0.0,
+      "validationRows": 78
+    },
+    "SIM_SWAP_ATO": {
+      "recallAtStepUp": 0.9556,
+      "legitAlertsPer1000AtStepUp": 0.0,
+      "recallAtHold": 0.9556,
+      "legitAlertsPer1000AtHold": 0.0,
+      "validationRows": 180
+    }
+  },
+  "blindSpots": {
+    "all signals": {
+      "recallAtStepUp": 0.9764,
+      "legitAlertsPer1000AtStepUp": 0.029,
+      "recallAtHold": 0.9741,
+      "legitAlertsPer1000AtHold": 0.0,
+      "recallAtStepUpByType": {
+        "DIGITAL_ARREST": 0.9861,
+        "INVESTMENT": 0.9664,
+        "REMOTE_ACCESS": 0.9615,
+        "SIM_SWAP_ATO": 1.0
+      }
+    },
+    "payee at another bank, no sharing": {
+      "recallAtStepUp": 0.9458,
+      "legitAlertsPer1000AtStepUp": 0.0,
+      "recallAtHold": 0.9364,
+      "legitAlertsPer1000AtHold": 0.0,
+      "recallAtStepUpByType": {
+        "DIGITAL_ARREST": 0.9444,
+        "INVESTMENT": 0.9284,
+        "REMOTE_ACCESS": 0.9359,
+        "SIM_SWAP_ATO": 0.9944
+      }
+    },
+    "no call or screen-sharing signal from the phone": {
+      "recallAtStepUp": 0.9694,
+      "legitAlertsPer1000AtStepUp": 0.029,
+      "recallAtHold": 0.967,
+      "legitAlertsPer1000AtHold": 0.0,
+      "recallAtStepUpByType": {
+        "DIGITAL_ARREST": 0.9653,
+        "INVESTMENT": 0.9597,
+        "REMOTE_ACCESS": 0.9615,
+        "SIM_SWAP_ATO": 1.0
+      }
+    },
+    "both": {
+      "recallAtStepUp": 0.9305,
+      "legitAlertsPer1000AtStepUp": 0.0,
+      "recallAtHold": 0.9223,
+      "legitAlertsPer1000AtHold": 0.0,
+      "recallAtStepUpByType": {
+        "DIGITAL_ARREST": 0.9097,
+        "INVESTMENT": 0.9217,
+        "REMOTE_ACCESS": 0.8718,
+        "SIM_SWAP_ATO": 0.9944
+      }
+    }
+  }
+}

@@ -19,6 +19,8 @@
 
     <modules>
         <module>muleshield-core</module>
+        <module>simulator</module>
+        <module>risk-service</module>
     </modules>
 
     <properties>

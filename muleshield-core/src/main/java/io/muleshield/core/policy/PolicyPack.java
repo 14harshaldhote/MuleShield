@@ -43,6 +43,15 @@ public record PolicyPack(
         holidays = holidays == null ? List.of() : List.copyOf(holidays);
     }
 
+    /** The same pack with the blanket protective delay switched off: for what-if analysis of risk-based holds alone. */
+    public PolicyPack withoutBlanketDelay() {
+        var d = protectiveDelay;
+        return new PolicyPack(id, jurisdiction, name, currency, amountScale, zone, thresholds,
+                new ProtectiveDelay(false, d.minAmount(), d.duration(), d.paymentTypes(), d.cancellable(), d.trustedPayeeBypass(), d.ref()),
+                riskHold, payeeVerification, debitHold, creditCap, newDeviceCooling, drainProtection, stepUp, reimbursement,
+                holidays, references);
+    }
+
     /**
      * Amounts go into the model relative to {@code amountScale} (typical monthly take-home pay in this
      * market), so one model serves ₹, £, €, S$ and A$ without learning each currency.

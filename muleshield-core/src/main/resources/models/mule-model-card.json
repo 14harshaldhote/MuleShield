@@ -1,0 +1,101 @@
+{
+  "model": "mule-gbm",
+  "trainedAt": "2026-09-29T17:37:34+00:00",
+  "data": {
+    "source": "target/ml/round2/training",
+    "trainRows": 17758,
+    "validRows": 55775,
+    "trainPositives": 1276,
+    "validPositives": 929,
+    "split": "time: train days < 71, validate days >= 71",
+    "synthetic": true
+  },
+  "features": [
+    "account_age_days",
+    "in_count_24h",
+    "distinct_senders_24h",
+    "new_sender_share",
+    "in_amount_24h_log",
+    "out_in_ratio",
+    "pass_through_1h_share",
+    "median_dwell_log",
+    "distinct_beneficiaries_24h",
+    "cash_out_share",
+    "upstream_risk",
+    "device_accounts",
+    "reports_30d",
+    "intel",
+    "night_share",
+    "dormant_gap_days"
+  ],
+  "monotoneConstraints": {
+    "pass_through_1h_share": 1,
+    "upstream_risk": 1,
+    "device_accounts": 1,
+    "reports_30d": 1,
+    "intel": 1,
+    "median_dwell_log": -1,
+    "cash_out_share": 1
+  },
+  "params": {
+    "objective": "binary:logistic",
+    "eval_metric": [
+      "logloss",
+      "aucpr"
+    ],
+    "tree_method": "hist",
+    "max_depth": 5,
+    "eta": 0.05,
+    "min_child_weight": 5,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "lambda": 2.0,
+    "seed": 42
+  },
+  "trees": 135,
+  "validation": {
+    "rocAuc": 0.9994261650597993,
+    "prAuc": 0.9856103341947553,
+    "baseRate": 0.0008462001604956601,
+    "atThresholds": [
+      {
+        "threshold": 0.3,
+        "recall": 0.9860064585575888,
+        "valueRecall": 0.9860064585575888,
+        "precision": 0.6468926553672316,
+        "alertRatePer1000": 1.2897948624993054
+      },
+      {
+        "threshold": 0.55,
+        "recall": 0.9773950484391819,
+        "valueRecall": 0.9773950484391819,
+        "precision": 0.8832684824902723,
+        "alertRatePer1000": 0.9363764962212472
+      },
+      {
+        "threshold": 0.9,
+        "recall": 0.8891280947255114,
+        "valueRecall": 0.8891280947255114,
+        "precision": 1.0,
+        "alertRatePer1000": 0.7523803364579282
+      }
+    ]
+  },
+  "featureImportanceGain": {
+    "account_age_days": 0.4365,
+    "in_count_24h": 0.1318,
+    "in_amount_24h_log": 0.0877,
+    "upstream_risk": 0.062,
+    "pass_through_1h_share": 0.0616,
+    "reports_30d": 0.0554,
+    "dormant_gap_days": 0.0486,
+    "distinct_beneficiaries_24h": 0.039,
+    "device_accounts": 0.0356,
+    "distinct_senders_24h": 0.0192,
+    "median_dwell_log": 0.0131,
+    "out_in_ratio": 0.0051,
+    "new_sender_share": 0.0043,
+    "night_share": 0.0001
+  },
+  "limitations": "Trained on simulated data (no public labelled UPI fraud data exists). Validate on the bank's own labelled history before any production use; re-fit thresholds to its alert budget."
+}

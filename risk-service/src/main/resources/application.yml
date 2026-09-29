@@ -1,0 +1,52 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: risk-service
+  threads:
+    virtual:
+      enabled: true
+  data:
+    redis:
+      host: ${VALKEY_HOST:localhost}
+      port: ${VALKEY_PORT:6379}
+      timeout: 200ms
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost:9092}
+    consumer:
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      properties:
+        enable.idempotence: true
+    streams:
+      application-id: muleshield-risk
+      state-dir: ${STREAMS_STATE_DIR:/tmp/muleshield-streams}
+      properties:
+        processing.guarantee: exactly_once_v2
+        default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        commit.interval.ms: 200
+
+muleshield:
+  bank-id: ${BANK_ID:MSB}
+  policy-pack: ${POLICY_PACK:IN-RBI-2026}
+  payment-model: classpath:models/payment-gbm.json
+  mule-model: classpath:models/mule-gbm.json
+  consortium-key: ${CONSORTIUM_KEY:}
+  service-token: ${SERVICE_TOKEN:}
+  intel-ttl: 62d
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      probes:
+        enabled: true

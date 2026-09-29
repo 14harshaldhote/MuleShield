@@ -40,6 +40,7 @@ public final class AccountState {
     static final Duration HOUR = Duration.ofHours(1);
     static final Duration REPORT_WINDOW = Duration.ofDays(30);
     static final Duration LOT_TTL = Duration.ofDays(7);
+    static final Duration REACTIVATION_WINDOW = Duration.ofDays(7);
     static final int MAX_EVENTS = 400;
     static final int MAX_KNOWN = 256;
     static final int MAX_LOTS = 200;
@@ -63,6 +64,7 @@ public final class AccountState {
     private Instant openedAt;
     private Instant firstSeenAt;
     private Instant lastEventAt;
+    private Instant burstStartAt;
     private double burstGapDays;
     private int nightEvents24h;
 
@@ -110,6 +112,7 @@ public final class AccountState {
             return this;
         }
         if (lastEventAt != null && Duration.between(lastEventAt, e.at()).compareTo(WINDOW) > 0) {
+            burstStartAt = e.at();
             burstGapDays = Duration.between(lastEventAt, e.at()).toHours() / 24.0;
         }
         lastEventAt = e.at();
@@ -351,8 +354,12 @@ public final class AccountState {
         return deviceAccounts;
     }
 
-    public double burstGapDays() {
-        return burstGapDays;
+    /**
+     * How long the account had been silent before its current spell of activity, if that spell began
+     * in the last week (a dormant account that has just woken up); 0 otherwise.
+     */
+    public double dormantGapDays(Instant now) {
+        return burstStartAt != null && Duration.between(burstStartAt, now).compareTo(REACTIVATION_WINDOW) <= 0 ? burstGapDays : 0;
     }
 
     public Instant firstSeenAt() {

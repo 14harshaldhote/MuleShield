@@ -1,0 +1,135 @@
+{
+  "model": "payment-gbm",
+  "trainedAt": "2026-09-29T17:37:37+00:00",
+  "data": {
+    "source": "target/ml/round2/training",
+    "trainRows": 100124,
+    "validRows": 35747,
+    "trainPositives": 2040,
+    "validPositives": 849,
+    "split": "time: train days < 70, validate days >= 70",
+    "synthetic": true
+  },
+  "features": [
+    "amount_scaled_log",
+    "amount_z",
+    "payee_new",
+    "payer_tx_1h",
+    "payer_amount_1h_log",
+    "payer_new_payees_24h",
+    "drain_ratio",
+    "device_age_hours",
+    "sim_change_hours",
+    "remote_access",
+    "on_call",
+    "payee_mule_score",
+    "payee_age_days",
+    "payee_senders_24h",
+    "payee_reports_30d",
+    "payee_intel",
+    "payee_name_mismatch",
+    "night",
+    "payer_age_days",
+    "p2p"
+  ],
+  "monotoneConstraints": {
+    "remote_access": 1,
+    "on_call": 1,
+    "payee_mule_score": 1,
+    "payee_reports_30d": 1,
+    "payee_intel": 1,
+    "payee_name_mismatch": 1,
+    "payee_new": 1,
+    "drain_ratio": 1,
+    "device_age_hours": -1,
+    "sim_change_hours": -1
+  },
+  "params": {
+    "objective": "binary:logistic",
+    "eval_metric": [
+      "logloss",
+      "aucpr"
+    ],
+    "tree_method": "hist",
+    "max_depth": 5,
+    "eta": 0.05,
+    "min_child_weight": 5,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "lambda": 2.0,
+    "seed": 42
+  },
+  "trees": 195,
+  "validation": {
+    "rocAuc": 0.9999572369782211,
+    "prAuc": 0.9920521873002051,
+    "baseRate": 0.001214924249687683,
+    "atThresholds": [
+      {
+        "threshold": 0.3,
+        "recall": 0.9646643109540636,
+        "valueRecall": 0.9803415401369617,
+        "precision": 1.0,
+        "alertRatePer1000": 1.1719940641863513
+      },
+      {
+        "threshold": 0.55,
+        "recall": 0.9552414605418139,
+        "valueRecall": 0.9721896150642143,
+        "precision": 1.0,
+        "alertRatePer1000": 1.1605460147193296
+      },
+      {
+        "threshold": 0.9,
+        "recall": 0.9269729093050648,
+        "valueRecall": 0.9487071125674917,
+        "precision": 1.0,
+        "alertRatePer1000": 1.1262018663182645
+      }
+    ],
+    "byTypology": {
+      "DIGITAL_ARREST": {
+        "rows": 144,
+        "recallAtStepUp": 0.9513888888888888,
+        "recallAtHold": 0.9375
+      },
+      "INVESTMENT": {
+        "rows": 447,
+        "recallAtStepUp": 0.9530201342281879,
+        "recallAtHold": 0.9440715883668904
+      },
+      "REMOTE_ACCESS": {
+        "rows": 78,
+        "recallAtStepUp": 0.9743589743589743,
+        "recallAtHold": 0.9615384615384616
+      },
+      "SIM_SWAP_ATO": {
+        "rows": 180,
+        "recallAtStepUp": 1.0,
+        "recallAtHold": 0.9944444444444445
+      }
+    }
+  },
+  "featureImportanceGain": {
+    "payee_reports_30d": 0.2875,
+    "payee_new": 0.2639,
+    "amount_scaled_log": 0.2248,
+    "payee_intel": 0.0791,
+    "payee_mule_score": 0.0366,
+    "amount_z": 0.0221,
+    "p2p": 0.0179,
+    "drain_ratio": 0.017,
+    "payer_amount_1h_log": 0.0131,
+    "payee_age_days": 0.0101,
+    "device_age_hours": 0.0087,
+    "on_call": 0.008,
+    "sim_change_hours": 0.0042,
+    "payer_age_days": 0.0018,
+    "night": 0.0017,
+    "payer_tx_1h": 0.0013,
+    "payer_new_payees_24h": 0.0011,
+    "remote_access": 0.0008,
+    "payee_senders_24h": 0.0003
+  },
+  "limitations": "Trained on simulated data (no public labelled UPI fraud data exists). Validate on the bank's own labelled history before any production use; re-fit thresholds to its alert budget."
+}

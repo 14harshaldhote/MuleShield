@@ -16,7 +16,9 @@ public record SharedSignal(String token, String epoch, String fromBank, Kind kin
         /** The bank's model flagged the account; not yet reviewed. */
         MULE_SUSPECTED,
         /** A customer reported paying this account in a scam. */
-        SCAM_REPORTED
+        SCAM_REPORTED,
+        /** The bank reviewed the account and cleared it: receivers must drop what they hold about it. */
+        CLEARED
     }
 
     public SharedSignal {
@@ -31,6 +33,7 @@ public record SharedSignal(String token, String epoch, String fromBank, Kind kin
             case MULE_CONFIRMED -> confidence;
             case SCAM_REPORTED -> 0.8 * confidence;
             case MULE_SUSPECTED -> 0.6 * confidence;
+            case CLEARED -> 0;
         };
     }
 }

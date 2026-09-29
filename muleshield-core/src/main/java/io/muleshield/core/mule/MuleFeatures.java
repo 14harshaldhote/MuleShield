@@ -32,7 +32,7 @@ public final class MuleFeatures {
         x[MuleFeature.REPORTS_30D.ordinal()] = s.reports30d(now);
         x[MuleFeature.INTEL.ordinal()] = intelScore;
         x[MuleFeature.NIGHT_SHARE.ordinal()] = f.nightShare();
-        x[MuleFeature.DORMANT_GAP_DAYS.ordinal()] = Math.min(s.burstGapDays(), 365);
+        x[MuleFeature.DORMANT_GAP_DAYS.ordinal()] = Math.min(s.dormantGapDays(now), 365);
         return x;
     }
 }

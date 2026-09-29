@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 
+import io.muleshield.core.events.PaymentEvent;
 import io.muleshield.core.payment.PaymentInstruction;
 import io.muleshield.core.payment.PaymentType;
 
@@ -43,6 +44,13 @@ public record AccountEvent(
         return List.of(
                 new AccountEvent(Kind.DEBIT, debtor, executedAt, p.amount().minor(), creditor, p.type(), 0, deviceAccounts, debtorOpenedAt),
                 new AccountEvent(Kind.CREDIT, creditor, executedAt, p.amount().minor(), debtor, p.type(), payerMuleScore, 0, creditorOpenedAt));
+    }
+
+    /** The two sides of an executed payment, from its published event. */
+    public static List<AccountEvent> of(PaymentEvent e) {
+        return List.of(
+                new AccountEvent(Kind.DEBIT, e.debtor(), e.at(), e.amountMinor(), e.creditor(), e.type(), 0, e.deviceAccounts(), e.debtorOpenedAt()),
+                new AccountEvent(Kind.CREDIT, e.creditor(), e.at(), e.amountMinor(), e.debtor(), e.type(), e.payerMuleScore(), 0, e.creditorOpenedAt()));
     }
 
     public static AccountEvent scamReport(String account, Instant at) {
