@@ -1,0 +1,95 @@
+# United Kingdom: Faster Payments under the PSR's mandatory APP scam reimbursement regime.
+id: UK-PSR-2024
+jurisdiction: GB
+name: "United Kingdom: PSR APP reimbursement and payment delays"
+currency: GBP
+amountScale: 2500.00          # typical monthly take-home pay; makes amounts comparable across currencies (bank calibration)
+zone: Europe/London
+
+thresholds:
+  stepUp: 0.30
+  hold: 0.60
+  block: 0.92
+  muleFlag: 0.60
+  muleAutoHold: 0.95
+
+protectiveDelay:
+  enabled: false
+  minAmount: 0
+  duration: PT0S
+  paymentTypes: []
+  cancellable: false
+  trustedPayeeBypass: false
+  ref: NONE
+
+riskHold:
+  enabled: true
+  duration: PT0S
+  businessDays: 4              # "until the end of the fourth business day following receipt of the payment order"
+  mustInformPayer: true        # the payer must be told the delay, the reason and what is needed to release it
+  ref: UK-PSREGS-2024
+
+payeeVerification:
+  mode: CONFIRMATION_OF_PAYEE
+  beforeExecution: true
+  ref: UK-SD17
+
+debitHold:
+  enabled: false
+  maxDuration: PT0S
+  customerResponseWindow: PT0S
+  bankDecisionWindow: PT0S
+  ref: NONE
+
+creditCap:
+  enabled: false
+  annualLimit: 0
+  ref: NONE
+
+newDeviceCooling:
+  enabled: false
+  duration: PT0S
+  ref: NONE
+
+drainProtection:
+  enabled: false
+  balanceShare: 1.0
+  window: PT0S
+  ref: NONE
+
+stepUp:
+  method: PASSKEY
+  dynamicLinking: true
+  ref: UK-SCA-RTS
+
+reimbursement:
+  mandatory: true
+  maxAmount: 85000.00
+  sendingBankShare: 0.5        # cost split 50:50 between the sending and the receiving bank
+  ref: UK-PSR-APP-2024
+
+# England and Wales bank holidays, for the business-day count of the payment delay.
+holidays: [2026-01-01, 2026-04-03, 2026-04-06, 2026-05-04, 2026-05-25, 2026-08-31, 2026-12-25, 2026-12-28,
+           2027-01-01, 2027-03-26, 2027-03-29, 2027-05-03, 2027-05-31, 2027-08-30, 2027-12-27, 2027-12-28]
+
+references:
+  - key: UK-PSR-APP-2024
+    title: "PSR Faster Payments APP scams reimbursement requirement, maximum £85,000 per claim (PS24/7)"
+    status: IN_FORCE
+    effective: "2024-10-07"
+    url: "https://www.psr.org.uk/publications/policy-statements/ps247-faster-payments-app-scams-reimbursement-requirement-confirming-the-maximum-level-of-reimbursement/"
+  - key: UK-PSREGS-2024
+    title: "The Payment Services (Amendment) Regulations 2024 (SI 2024/1013): delay an outbound payment on reasonable grounds to suspect fraud"
+    status: IN_FORCE
+    effective: "October 2024"
+    url: "https://www.legislation.gov.uk/uksi/2024/1013/made"
+  - key: UK-SD17
+    title: "PSR Specific Direction 17: Confirmation of Payee extended to about 400 more PSPs"
+    status: IN_FORCE
+    effective: "October 2024"
+    url: "https://www.psr.org.uk/our-work/app-scams/confirmation-of-payee/"
+  - key: UK-SCA-RTS
+    title: "Strong customer authentication with dynamic linking (UK SCA-RTS, Article 5)"
+    status: IN_FORCE
+    effective: ""
+    url: ""

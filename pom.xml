@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.1.1</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>io.muleshield</groupId>
+    <artifactId>muleshield</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>MuleShield</name>
+    <description>Real-time scam-payment and money-mule defence for instant payments, with jurisdiction policy packs</description>
+
+    <modules>
+        <module>muleshield-core</module>
+    </modules>
+
+    <properties>
+        <java.version>25</java.version>
+        <!-- Boot 4.1.1 ships Tomcat 11.0.24 and Jackson 3.1.5 / 2.21.5, which have published CVEs.
+             Pinned to the patched releases until Boot picks them up.                  [OWASP A03:2025] -->
+        <tomcat.version>11.0.26</tomcat.version>
+        <jackson-bom.version>3.1.7</jackson-bom.version>
+        <jackson-2-bom.version>2.21.7</jackson-2-bom.version>
+        <testcontainers.version>2.0.5</testcontainers.version>
+        <webauthn4j.version>0.31.10.RELEASE</webauthn4j.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.muleshield</groupId>
+                <artifactId>muleshield-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.webauthn4j</groupId>
+                <artifactId>webauthn4j-core</artifactId>
+                <version>${webauthn4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.webauthn4j</groupId>
+                <artifactId>webauthn4j-test</artifactId>
+                <version>${webauthn4j.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

@@ -1,0 +1,98 @@
+# India: RBI's 2026 digital-payment safeguards for UPI and IMPS.
+# Two of the rules below come from RBI drafts; they are marked DRAFT and switch off in one line
+# if the final text differs.
+id: IN-RBI-2026
+jurisdiction: IN
+name: "India: RBI 2026 digital payment safeguards"
+currency: INR
+amountScale: 25000.00          # typical monthly take-home pay; makes amounts comparable across currencies (bank calibration)
+zone: Asia/Kolkata
+
+thresholds:
+  stepUp: 0.30        # ask the payer to confirm with a passkey that signs amount + payee
+  hold: 0.55          # hold the payment, tell the payer why, let them cancel
+  block: 0.90         # refuse
+  muleFlag: 0.60      # open a case on the receiving account
+  muleAutoHold: 0.92  # place a temporary debit hold straight away, then maker-checker review
+
+protectiveDelay:
+  enabled: true
+  minAmount: 10000.00
+  duration: PT1H
+  paymentTypes: [P2P]
+  cancellable: true
+  trustedPayeeBypass: true     # the draft lets customers whitelist payees
+  ref: RBI-APP-DRAFT-2026
+
+riskHold:
+  enabled: true
+  duration: PT4H
+  businessDays: 0
+  mustInformPayer: true
+  ref: BANK-POLICY
+
+payeeVerification:
+  mode: NAME_DISPLAY           # UPI shows the payee's registered name before the PIN
+  beforeExecution: true
+  ref: SCHEME-PRACTICE
+
+debitHold:
+  enabled: true
+  maxDuration: P60D
+  customerResponseWindow: P20D
+  bankDecisionWindow: P10D
+  ref: RBI-HOLD-SOP-2026
+
+creditCap:
+  enabled: true
+  annualLimit: 2500000.00      # ₹25 lakh a year for individuals without a documented business need
+  ref: RBI-APP-DRAFT-2026
+
+newDeviceCooling:
+  enabled: false
+  duration: PT0S
+  ref: NONE
+
+drainProtection:
+  enabled: false
+  balanceShare: 1.0
+  window: PT0S
+  ref: NONE
+
+stepUp:
+  method: PASSKEY
+  dynamicLinking: true         # at least one dynamic factor, bound to this transaction
+  ref: RBI-AUTH-2025
+
+reimbursement:
+  mandatory: false             # RBI's limited-liability rules cover unauthorised payments, not scams the customer authorised
+  maxAmount: 0
+  sendingBankShare: 0
+  ref: NONE
+
+references:
+  - key: RBI-AUTH-2025
+    title: "RBI (Authentication Mechanisms for Digital Payment Transactions) Directions, 2025: two factors, at least one dynamic, risk-based checks"
+    status: IN_FORCE
+    effective: "2026-04-01"
+    url: "https://kpmg.com/in/en/insights/2025/12/reserve-bank-of-india-rbi-authentication-mechanisms-for-digital-payment-transactions-directions-2025.html"
+  - key: RBI-APP-DRAFT-2026
+    title: "RBI discussion paper on digital payment safeguards: 1-hour cancellable delay for push transfers of ₹10,000+, ₹25 lakh annual credit cap, kill switch"
+    status: DRAFT
+    effective: "comments closed 2026-05-08"
+    url: "https://www.medianama.com/2026/04/223-rbi-1-hour-delay-digital-payment-fraud-safeguards/"
+  - key: RBI-HOLD-SOP-2026
+    title: "RBI draft SOP on temporary debit holds on suspected money-mule accounts: 60-day maximum, 20 days for the customer, 10 days for the bank"
+    status: DRAFT
+    effective: "issued 2026-09-11, proposed from 2027-04-01"
+    url: "https://www.medianama.com/2026/09/223-rbi-cyber-fraud-account-freeze-rules/"
+  - key: BANK-POLICY
+    title: "The bank's own risk appetite, set under RBI-AUTH-2025's risk-based fraud management"
+    status: BANK_POLICY
+    effective: ""
+    url: ""
+  - key: SCHEME-PRACTICE
+    title: "The payment scheme shows the payee's registered name before the payer authorises"
+    status: INDUSTRY
+    effective: ""
+    url: ""

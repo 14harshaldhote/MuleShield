@@ -1,0 +1,88 @@
+# Euro area: SEPA Instant under the Instant Payments Regulation. An instant payment must settle within
+# 10 seconds, so there is no room for a delay: a payment the model would hold is declined with the
+# reason, and the payer can confirm and re-initiate it.
+id: EU-IPR-2025
+jurisdiction: EU
+name: "Euro area: Instant Payments Regulation and Verification of Payee"
+currency: EUR
+amountScale: 2200.00          # typical monthly take-home pay; makes amounts comparable across currencies (bank calibration)
+zone: Europe/Brussels
+
+thresholds:
+  stepUp: 0.30
+  hold: 0.60
+  block: 0.92
+  muleFlag: 0.60
+  muleAutoHold: 0.95
+
+protectiveDelay:
+  enabled: false
+  minAmount: 0
+  duration: PT0S
+  paymentTypes: []
+  cancellable: false
+  trustedPayeeBypass: false
+  ref: NONE
+
+riskHold:
+  enabled: false
+  duration: PT0S
+  businessDays: 0
+  mustInformPayer: true
+  ref: EU-IPR
+
+payeeVerification:
+  mode: VERIFICATION_OF_PAYEE  # match / close match / no match / not possible, shown before the payer authorises
+  beforeExecution: true
+  ref: EU-IPR
+
+debitHold:
+  enabled: false
+  maxDuration: PT0S
+  customerResponseWindow: PT0S
+  bankDecisionWindow: PT0S
+  ref: NONE
+
+creditCap:
+  enabled: false
+  annualLimit: 0
+  ref: NONE
+
+newDeviceCooling:
+  enabled: false
+  duration: PT0S
+  ref: NONE
+
+drainProtection:
+  enabled: false
+  balanceShare: 1.0
+  window: PT0S
+  ref: NONE
+
+stepUp:
+  method: PASSKEY
+  dynamicLinking: true
+  ref: EU-SCA-RTS
+
+reimbursement:
+  mandatory: false
+  maxAmount: 0
+  sendingBankShare: 0
+  ref: EU-PSR
+
+references:
+  - key: EU-IPR
+    title: "Regulation (EU) 2024/886 (Instant Payments Regulation): Verification of Payee for all SEPA credit transfers"
+    status: IN_FORCE
+    effective: "2025-10-09"
+    url: "https://www.ecb.europa.eu/paym/retail/instant_payments/html/instant_payments_regulation.en.html"
+  - key: EU-SCA-RTS
+    title: "Commission Delegated Regulation (EU) 2018/389, Article 5: dynamic linking of the authentication code to amount and payee"
+    status: IN_FORCE
+    effective: "2019-09-14"
+    url: ""
+  - key: EU-PSR
+    title: "Payment Services Regulation and PSD3: refunds for bank-impersonation spoofing and for failed payee verification"
+    status: NOT_YET_APPLICABLE
+    effective: "provisional agreement reached; applies after adoption and transition"
+    url: "https://www.nortonrosefulbright.com/en/knowledge/publications/cedd39c6/psd3-and-psr-from-provisional-agreement-to-2026-readiness"

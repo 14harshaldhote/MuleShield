@@ -1,0 +1,86 @@
+# Singapore: MAS and IMDA Shared Responsibility Framework for phishing scams.
+id: SG-SRF-2024
+jurisdiction: SG
+name: "Singapore: Shared Responsibility Framework"
+currency: SGD
+amountScale: 5000.00          # typical monthly take-home pay; makes amounts comparable across currencies (bank calibration)
+zone: Asia/Singapore
+
+thresholds:
+  stepUp: 0.30
+  hold: 0.55
+  block: 0.90
+  muleFlag: 0.60
+  muleAutoHold: 0.95
+
+protectiveDelay:
+  enabled: false
+  minAmount: 0
+  duration: PT0S
+  paymentTypes: []
+  cancellable: false
+  trustedPayeeBypass: false
+  ref: NONE
+
+riskHold:
+  enabled: true
+  duration: PT24H              # duty 5: halt pending confirmation, or hold for 24 hours and notify
+  businessDays: 0
+  mustInformPayer: true
+  ref: SG-SRF
+
+payeeVerification:
+  mode: NAME_DISPLAY           # PayNow shows the registered name
+  beforeExecution: true
+  ref: SCHEME-PRACTICE
+
+debitHold:
+  enabled: false
+  maxDuration: PT0S
+  customerResponseWindow: PT0S
+  bankDecisionWindow: PT0S
+  ref: NONE
+
+creditCap:
+  enabled: false
+  annualLimit: 0
+  ref: NONE
+
+newDeviceCooling:
+  enabled: true
+  duration: PT12H              # duty 1: no high-risk activity for 12 hours after a digital token is activated
+  ref: SG-SRF
+
+drainProtection:
+  enabled: true
+  balanceShare: 0.5            # half the balance leaving within an hour counts as a rapid drain (bank-chosen threshold)
+  window: PT1H
+  ref: SG-SRF
+
+stepUp:
+  method: PASSKEY
+  dynamicLinking: true
+  ref: BANK-POLICY
+
+reimbursement:
+  mandatory: false             # the framework assigns losses along a waterfall when a bank or telco breaches its duties
+  maxAmount: 0
+  sendingBankShare: 0
+  ref: SG-SRF
+
+references:
+  - key: SG-SRF
+    title: "MAS Guidelines on Shared Responsibility Framework: 12-hour token cooling-off, real-time alerts, 24/7 kill switch, drain surveillance"
+    status: IN_FORCE
+    effective: "2024-12-16 (duty 5 from 2025-06-16)"
+    url: "https://www.mas.gov.sg/regulation/guidelines/guidelines-on-shared-responsibility-framework"
+  - key: BANK-POLICY
+    title: "The bank's own authentication policy under MAS Technology Risk Management Guidelines"
+    status: BANK_POLICY
+    effective: ""
+    url: ""
+  - key: SCHEME-PRACTICE
+    title: "The payment scheme shows the payee's registered name before the payer authorises"
+    status: INDUSTRY
+    effective: ""
+    url: ""

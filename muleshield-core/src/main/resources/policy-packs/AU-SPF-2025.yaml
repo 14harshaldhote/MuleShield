@@ -1,0 +1,87 @@
+# Australia: Scams Prevention Framework (prevent, detect, disrupt, report, respond, govern) and the
+# banks' Scam-Safe Accord.
+id: AU-SPF-2025
+jurisdiction: AU
+name: "Australia: Scams Prevention Framework"
+currency: AUD
+amountScale: 6000.00          # typical monthly take-home pay; makes amounts comparable across currencies (bank calibration)
+zone: Australia/Sydney
+
+thresholds:
+  stepUp: 0.30
+  hold: 0.60
+  block: 0.92
+  muleFlag: 0.60
+  muleAutoHold: 0.95
+
+protectiveDelay:
+  enabled: false
+  minAmount: 0
+  duration: PT0S
+  paymentTypes: []
+  cancellable: false
+  trustedPayeeBypass: false
+  ref: NONE
+
+riskHold:
+  enabled: true
+  duration: PT24H              # "disrupt": the length is the bank's choice
+  businessDays: 0
+  mustInformPayer: true
+  ref: AU-SPF
+
+payeeVerification:
+  mode: CONFIRMATION_OF_PAYEE
+  beforeExecution: true
+  ref: AU-ACCORD
+
+debitHold:
+  enabled: false
+  maxDuration: PT0S
+  customerResponseWindow: PT0S
+  bankDecisionWindow: PT0S
+  ref: NONE
+
+creditCap:
+  enabled: false
+  annualLimit: 0
+  ref: NONE
+
+newDeviceCooling:
+  enabled: false
+  duration: PT0S
+  ref: NONE
+
+drainProtection:
+  enabled: false
+  balanceShare: 1.0
+  window: PT0S
+  ref: NONE
+
+stepUp:
+  method: PASSKEY
+  dynamicLinking: true
+  ref: BANK-POLICY
+
+reimbursement:
+  mandatory: false
+  maxAmount: 0
+  sendingBankShare: 0
+  ref: AU-SPF
+
+references:
+  - key: AU-SPF
+    title: "Scams Prevention Framework Act 2025: prevent, detect, disrupt, report, respond, govern; actionable scam intelligence sharing"
+    status: NOT_YET_APPLICABLE
+    effective: "Act commenced 2025-02-21; bank obligations from 2027-03-31 at the earliest"
+    url: "https://www.hsfkramer.com/insights/2026-06/stage-1-of-the-scams-prevention-framework"
+  - key: AU-ACCORD
+    title: "ABA Scam-Safe Accord: Confirmation of Payee rolled out by Australian banks from 2025"
+    status: INDUSTRY
+    effective: "2025"
+    url: "https://www.ausbanking.org.au/scam-safe-accord/confirmation-of-payee/"
+  - key: BANK-POLICY
+    title: "The bank's own authentication policy"
+    status: BANK_POLICY
+    effective: ""
+    url: ""
